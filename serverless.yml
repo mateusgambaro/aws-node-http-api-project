@@ -20,18 +20,21 @@ functions:
     events:
       - httpApi:
           path: /
+          cors: true
           method: post
   getUser:
     handler: src/getUser.handler
     events:
       - httpApi:
           path: /users
+          cors: true
           method: get
   getUserById:
     handler: src/getUserById.handler
     events:
       - httpApi:
           path: /user/{id}
+          cors: true
           method: get
   updateUser:
     handler: src/updateUser.handler
@@ -45,6 +48,7 @@ functions:
     events:
       - httpApi:
           path: /user/{id}
+          cors: true
           method: delete
 
 
