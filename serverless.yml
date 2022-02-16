@@ -1,0 +1,63 @@
+org: mateusgambaro
+app: aws-node-http-api-project
+service: aws-node-http-api-project
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: sa-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+       - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:sa-east-1:056406723936:table/User
+
+functions:
+  addUser:
+    handler: src/addUser.handler
+    events:
+      - httpApi:
+          path: /
+          method: post
+  getUser:
+    handler: src/getUser.handler
+    events:
+      - httpApi:
+          path: /users
+          method: get
+  getUserById:
+    handler: src/getUserById.handler
+    events:
+      - httpApi:
+          path: /user/{id}
+          method: get
+  updateUser:
+    handler: src/updateUser.handler
+    events:
+      - httpApi:
+          path: /user/{id}
+          cors: true
+          method: put
+  deleteUser:
+    handler: src/deleteUser.handler
+    events:
+      - httpApi:
+          path: /user/{id}
+          method: delete
+
+
+resources:
+  Resources:
+    User:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: User
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
