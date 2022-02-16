@@ -5,7 +5,7 @@ const updateUser = async (event) => {
   const data = JSON.parse(event.body);
 
   data.id = event.pathParameters.id;
-  data.updatedAt = new Date().getTime();
+  data.updatedAt = new Date().toISOString();
   
   const params = {
     TableName: "User",
